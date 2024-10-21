@@ -3,6 +3,11 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Rota de teste para garantir que o servidor está respondendo
+app.get('/teste', (req, res) => {
+    res.send('Servidor está funcionando');
+});
+
 app.get('/api/produtos/', async (req, res) => {
     const sku = req.params.sku; // Pega o SKU enviado pelo front-end
     const vtexUrl = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
