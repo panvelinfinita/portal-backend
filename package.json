@@ -1,14 +1,11 @@
 {
-  "name": "back",
+  "name": "busca-sku-panvel",
   "version": "1.0.0",
-  "description": "Depois escrever melhor o que é isso.",
+  "description": "Projeto para buscar SKU Panvel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
     "express": "^4.21.1"
