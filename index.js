@@ -7,17 +7,8 @@ app.use(express.json());
 
 // Definir a rota do proxy
 app.get('/api/produtos', async (req, res) => {
-    try {
-        // Pegando o valor do SKU da query string
-        const sku = 12345;
-
-        // Garantir que o SKU foi passado
-        if (!sku) {
-            return res.status(400).send('O parâmetro SKU é obrigatório.');
-        }
-
         // Configurar a URL da API VTEX com o SKU correto
-        const url = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
+        const url = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/12345`;
         
         // Fazer a requisição à API da VTEX
         const response = await axios.get(url, {
