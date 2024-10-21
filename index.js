@@ -2,6 +2,8 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
+app.use(cors()); // E adicione isso para liberar o acesso
+
 // Porta do servidor
 const PORT = process.env.PORT || 3000;
 
