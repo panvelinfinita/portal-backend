@@ -8,15 +8,24 @@ app.use(express.json());
 // Definir a rota do proxy
 app.get('/api/produtos', async (req, res) => {
     try {
-        const sku = req.query.sku;  // Pega o SKU da query string
+        // Pegando o valor do SKU da query string
+        const sku = req.query.sku;
+
+        // Garantir que o SKU foi passado
+        if (!sku) {
+            return res.status(400).send('O parâmetro SKU é obrigatório.');
+        }
+
+        // Configurar a URL da API VTEX com o SKU correto
+        const url = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
         
-        // Configurar a URL da API VTEX
-        const response = await axios.get(`https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`, {
+        // Fazer a requisição à API da VTEX
+        const response = await axios.get(url, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-VTEX-API-AppKey': 'vtexappkey-panvelprd-OLDAFN',
-                'X-VTEX-API-AppToken': 'UOFVLDXSQIKCFYVTKNGANQCHIWJLHGWBOPXWGORMXUPEYLSHJPNTPXSIHZNDCTTYOLNFWTALWYJEKBMDYEYXZEUSCHZWEAYQUILSCTOOCWIONMKBRUVESGZOFMQRYZUD'
+                'X-VTEX-API-AppKey': 'SUA_APP_KEY',
+                'X-VTEX-API-AppToken': 'SEU_APP_TOKEN'
             }
         });
 
