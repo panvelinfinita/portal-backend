@@ -9,7 +9,7 @@ app.use(express.json());
 app.get('/api/produtos', async (req, res) => {
     try {
         // Pegando o valor do SKU da query string
-        const sku = req.query.sku;
+        const sku = 12345;
 
         // Garantir que o SKU foi passado
         if (!sku) {
@@ -24,8 +24,8 @@ app.get('/api/produtos', async (req, res) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-VTEX-API-AppKey': 'SUA_APP_KEY',
-                'X-VTEX-API-AppToken': 'SEU_APP_TOKEN'
+                'X-VTEX-API-AppKey': 'vtexappkey-panvelprd-OLDAFN',
+                'X-VTEX-API-AppToken': 'UOFVLDXSQIKCFYVTKNGANQCHIWJLHGWBOPXWGORMXUPEYLSHJPNTPXSIHZNDCTTYOLNFWTALWYJEKBMDYEYXZEUSCHZWEAYQUILSCTOOCWIONMKBRUVESGZOFMQRYZUD'
             }
         });
 
