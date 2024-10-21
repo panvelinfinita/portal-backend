@@ -1,6 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+
+// Porta do servidor
 const PORT = process.env.PORT || 3000;
 
 // Rota de teste para garantir que o servidor está respondendo
@@ -8,12 +10,13 @@ app.get('/teste', (req, res) => {
     res.send('Servidor está funcionando');
 });
 
-app.get('/api/produtos/', async (req, res) => {
-    const sku = req.params.sku; // Pega o SKU enviado pelo front-end
-    const vtexUrl = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
+// Rota para a API
+app.get('/api/produtos', async (req, res) => {
+    const sku = req.query.sku;  // SKU recebido pela query string
+    const url = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
 
     try {
-        const response = await axios.get(vtexUrl, {
+        const response = await axios.get(url, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -22,10 +25,11 @@ app.get('/api/produtos/', async (req, res) => {
             }
         });
 
-        res.json(response.data); // Retorna o JSON recebido da VTEX para o front-end
+        // Enviar resposta ao cliente
+        res.json(response.data);
     } catch (error) {
-        console.error('Erro na requisição para a VTEX:', error);
-        res.status(500).json({ error: 'Erro ao consultar produto na VTEX.' });
+        console.error('Erro ao consultar a API VTEX:', error);
+        res.status(500).send('Erro na consulta');
     }
 });
 
