@@ -24,7 +24,8 @@ app.get('/api/produtos', async (req, res) => {
                 'X-VTEX-API-AppKey': 'vtexappkey-panvelprd-OLDAFN'
             }
         });
-
+        console.log("Resposta da VTEX:", response.data);  // Log da resposta
+        
         // Enviar resposta ao cliente
         res.json(response.data);
     } catch (error) {
