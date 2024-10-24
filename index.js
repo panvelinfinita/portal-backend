@@ -50,17 +50,17 @@ app.post('/api/preco-estoque', async (req, res) => {
     const { id, seller} = req.body;  // Pegando os parâmetros do body da requisição
 
     const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';  // Substitua pela URL do endpoint de preço e estoque
-    const body = {
-        "items": [
+    const body = JSON.stringify ({
+        items: [
             {
-                "id": id,  // SKU do produto
-                "quantity": "1",  // Quantidade do produto
-                "seller": seller  // SellerId
+                id: id,  // SKU do produto
+                quantity: "1",  // Quantidade do produto
+                seller: seller  // SellerId
             }
         ],
-        "country": "BRA",
-        "postalCode": "92310150"
-    };
+        country: "BRA",
+        postalCode: "92310150"
+    });
 
     try {
         const response = await axios.post(url, body, {
