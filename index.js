@@ -53,9 +53,9 @@ app.post('/api/preco-estoque', async (req, res) => {
     const body = {
         items: [
             {
-                "id": "32554",  // SKU do produto
+                "id": id,  // SKU do produto
                 "quantity": "1",  // Quantidade do produto
-                "seller": "HFZZ37999792000160"  // SellerId
+                "seller": seller  // SellerId
             }
         ],
         "country": "BRA",
