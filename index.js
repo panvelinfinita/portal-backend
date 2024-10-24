@@ -7,8 +7,11 @@ const app = express();
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Middleware para processar JSON no body das requisições
+app.use(express.json());
 
 // Porta do servidor
 const PORT = process.env.PORT || 3000;
@@ -47,7 +50,7 @@ app.post('/api/preco-estoque', async (req, res) => {
     const { id, seller, quantity = "1" } = req.body;  // Pegando os parâmetros do body da requisição
 
     const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';
-    const body = JSON.stringify({
+    const body = {
         items: [
             {
                 id: id,  // SKU do produto
@@ -57,7 +60,7 @@ app.post('/api/preco-estoque', async (req, res) => {
         ],
         country: "BRA",
         postalCode: "92310150"
-    });
+    };
 
     console.log("Body da requisição:", body); // Debug do body para verificar se está correto
 
