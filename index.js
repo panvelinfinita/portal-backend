@@ -46,40 +46,40 @@ app.listen(PORT, () => {
     console.log(`Servidor proxy rodando na porta ${PORT}`);
 });
 
-// Nova rota para consultar preço e estoque de um SKU com POST
-app.post('/api/produtos/preco-estoque', async (req, res) => {
-    const { sku, seller } = req.body;  // Recebe SKU e Seller do corpo da requisição
+// NOVA ROTA: Rota para consultar preço e estoque
+app.post('/api/preco-estoque', async (req, res) => {
+    const { id, seller, quantity = "1" } = req.body;  // Pegando os parâmetros do body da requisição
 
-    // Defina o endpoint para consultar preço e estoque
-    const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1'; // Substitua pela URL correto da API de preço e estoque da VTEX
-
-    // Corpo da requisição que será enviado no POST
-    const data = {
-        "items": [
+    const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';  // Substitua pela URL do endpoint de preço e estoque
+    const body = {
+        items: [
             {
-                "id": sku,  // SKU que será enviado
-                "quantity": "1",  // Quantidade padrão (estática)
-                "seller": seller  // Seller ID que será enviado
+                id: id,  // SKU do produto
+                quantity: quantity,  // Quantidade do produto
+                seller: seller  // SellerId
             }
         ],
-        "country": "BRA",  // Código do país
-        "postalCode": "03371000"  // CEP padrão (estático)
+        country: "BRA",
+        postalCode: "92310150"
     };
 
     try {
-        const response = await axios.post(url, data, {
+        const response = await axios.post(url, body, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-VTEX-API-AppToken': 'UOFVLDXSQIKCFYVTKNGANQCHIWJLHGWBOPXWGORMXUPEYLSHJPNTPXSIHZNDCTTYOLNFWTALWYJEKBMDYEYXZEUSCHZWEAYQUILSCTOOCWIONMKBRUVESGZOFMQRYZUD',
-                'X-VTEX-API-AppKey': 'vtexappkey-panvelprd-OLDAFN'
+                'X-VTEX-API-AppToken': 'UOFVLDXSQIKCFYVTKNGANQCHIWJLHGWBOPXWGORMXUPEYLSHJPNTPXSIHZNDCTTYOLNFWTALWYJEKBMDYEYXZEUSCHZWEAYQUILSCTOOCWIONMKBRUVESGZOFMQRYZUD',  // Inclua seu App Token aqui
+                'X-VTEX-API-AppKey': 'vtexappkey-panvelprd-OLDAFN'  // Inclua sua App Key aqui
             }
         });
 
-        // Enviar a resposta com os dados de preço e estoque
+        // Enviar resposta ao cliente
         res.json(response.data);
     } catch (error) {
-        console.error('Erro ao consultar a API de Preço e Estoque:', error);
-        res.status(500).send('Erro na consulta de preço e estoque');
+        console.error('Erro ao consultar preço/estoque:', error.response?.data || error.message);
+        res.status(500).json({ message: 'Erro ao consultar preço/estoque' });
     }
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor proxy rodando na porta ${PORT}`);
 });
