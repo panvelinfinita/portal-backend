@@ -1,9 +1,14 @@
 const express = require('express');
 const axios = require('axios');
-const app = express();
 const cors = require('cors');
+const app = express();
 
-app.use(cors());
+// Configuração do CORS para permitir todas as origens
+app.use(cors({
+    origin:'*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-type', 'Authorization'] 
+}));
 
 // Porta do servidor
 const PORT = process.env.PORT || 3000;
