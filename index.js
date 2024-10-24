@@ -51,7 +51,7 @@ app.post('/api/preco-estoque', async (req, res) => {
 
     const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';  // Substitua pela URL do endpoint de preço e estoque
     const body = {
-        items: [
+        "items": [
             {
                 "id": id,  // SKU do produto
                 "quantity": "1",  // Quantidade do produto
