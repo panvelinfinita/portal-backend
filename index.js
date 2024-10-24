@@ -47,19 +47,19 @@ app.get('/api/produtos', async (req, res) => {
 
 // NOVA ROTA: Rota para consultar preço e estoque
 app.post('/api/preco-estoque', async (req, res) => {
-    const { id, seller, quantity = "1" } = req.body;  // Pegando os parâmetros do body da requisição
+    const { id, seller} = req.body;  // Pegando os parâmetros do body da requisição
 
     const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';  // Substitua pela URL do endpoint de preço e estoque
     const body = {
         items: [
             {
-                id: id,  // SKU do produto
-                quantity: quantity,  // Quantidade do produto
-                seller: seller  // SellerId
+                "id": "32554",  // SKU do produto
+                "quantity": "1",  // Quantidade do produto
+                "seller": "HFZZ37999792000160"  // SellerId
             }
         ],
-        country: "BRA",
-        postalCode: "92310150"
+        "country": "BRA",
+        "postalCode":" "92310150"
     };
 
     try {
