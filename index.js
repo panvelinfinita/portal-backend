@@ -3,9 +3,6 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 
-// Middleware para permitir JSON no body das requisições
-app.use(express.json());
-
 // Configuração do CORS para permitir todas as origens
 app.use(cors({
     origin: '*',
@@ -21,7 +18,7 @@ app.get('/teste', (req, res) => {
     res.send('Servidor está funcionando');
 });
 
-// Rota para a API de produtos (SKU Front)
+// Rota para a API de SKU
 app.get('/api/produtos', async (req, res) => {
     const sku = req.query.sku;  // SKU recebido pela query string
     const url = `https://panvelprd.vtexcommercestable.com.br/api/catalog_system/pvt/sku/stockkeepingunitbyid/${sku}`;
@@ -47,15 +44,15 @@ app.get('/api/produtos', async (req, res) => {
 
 // NOVA ROTA: Rota para consultar preço e estoque
 app.post('/api/preco-estoque', async (req, res) => {
-    const { id, seller, quantity = "1" } = req.body;
+    const { id, seller, quantity = "1" } = req.body;  // Pegando os parâmetros do body da requisição
 
     const url = 'http://panvelprd.vtexcommercestable.com.br/api/checkout/pvt/orderForms/simulation?sc=1';
     const body = JSON.stringify({
         items: [
             {
-                id: id,
-                quantity: quantity,
-                seller: seller
+                id: id,  // SKU do produto
+                quantity: quantity,  // Quantidade do produto
+                seller: seller  // SellerId
             }
         ],
         country: "BRA",
@@ -73,10 +70,15 @@ app.post('/api/preco-estoque', async (req, res) => {
             }
         });
 
-        console.log("Resposta da VTEX:", response.data); // Log da resposta para verificar o resultado
+        console.log("Resposta da VTEX (preço/estoque):", response.data); // Log da resposta para verificar o resultado
         res.json(response.data);
     } catch (error) {
         console.error('Erro ao consultar preço/estoque:', error.response?.data || error.message); // Melhor debug do erro
         res.status(500).json({ message: 'Erro ao consultar preço/estoque' });
     }
+});
+
+// Escutar na porta apenas uma vez
+app.listen(PORT, () => {
+    console.log(`Servidor proxy rodando na porta ${PORT}`);
 });
