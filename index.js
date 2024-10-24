@@ -59,7 +59,7 @@ app.post('/api/preco-estoque', async (req, res) => {
             }
         ],
         "country": "BRA",
-        "postalCode":" "92310150"
+        "postalCode": "92310150"
     };
 
     try {
